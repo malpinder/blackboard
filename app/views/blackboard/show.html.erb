@@ -1,4 +1,21 @@
 <div class="text-center">
-  <h1>Blackboard#show</h1>
-  <p class="lead">Find me in app/views/blackboard/show.html.erb</p>
+  <h1>Blackboard</h1>
+  <p class="lead">These here are some words for talking about what the purpose of this thing is</p>
+  <p> Here are some other, more in depth words, perhaps talking about where to go to get started with some links or
+    something, basic stuff link that, etc
+  </p>
+</div>
+
+<div class="row-fluid">
+  <% @groups.each do |group| %>
+  <div class="span6">
+    <h2><%= group.name %></h2>
+    <% group.projects.each do |project| %>
+    <div>
+      <p><%= link_to project.name, project %></p>
+      <p><%= project.summary %></p>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
 </div>
