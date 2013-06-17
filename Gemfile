@@ -28,6 +28,8 @@ gem "twitter-bootstrap-rails"
 gem "formtastic"
 gem "formtastic-plus-bootstrap"
 
+gem 'redcarpet'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

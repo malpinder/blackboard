@@ -1,7 +1,7 @@
 <h1><%= @project.name %></h1>
 
 <p class="lead"><%= @project.summary %></p>
-<p><%= @project.description %></p>
+<p><%= markdown @project.description %></p>
 
 <h2>What exactly will my program need to do?</h2>
 <div class="accordion" id="accordion1">
@@ -24,12 +24,12 @@
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="goal-<%= goal.id%>-description">
-                    <p><%= goal.description %></p>
+                    <p><%= markdown goal.description %></p>
                   </div>
                   <div class="tab-pane" id="goal-<%= goal.id%>-tips">
                     <ul>
                       <% goal.tips.each do |tip| %>
-                        <li><%= tip.text %></li>
+                        <li><%= markdown tip.text %></li>
                       <% end %>
                     </ul>
                   </div>
