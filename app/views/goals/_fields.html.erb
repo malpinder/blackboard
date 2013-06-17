@@ -1,0 +1,5 @@
+<%= goal_form.inputs name: "Goal" do %>
+  <%= goal_form.input :title %>
+  <%= goal_form.input :description, input_html: { class: "input-xxlarge" } %>
+  <%= goal_form.link_to_remove "Remove this goal" %>
+<% end %>

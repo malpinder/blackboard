@@ -27,6 +27,7 @@ gem 'turbolinks'
 gem "twitter-bootstrap-rails"
 gem "formtastic"
 gem "formtastic-plus-bootstrap"
+gem "nested_form"
 
 gem 'redcarpet'
 

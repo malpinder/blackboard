@@ -1,9 +1,13 @@
-<%= semantic_form_for(@project) do |f| %>
-  <%= f.inputs do %>
+<%= semantic_nested_form_for(@project) do |f| %>
+  <%= f.inputs name: "Project" do %>
     <%= f.input :group, include_blank: false, input_html: {class: "input-medium"} %>
     <%= f.input :name %>
     <%= f.input :summary %>
     <%= f.input :description, input_html: {class: "input-xxlarge"} %>
   <% end %>
+  <%= f.fields_for :goals do |goal_form| %>
+    <%= render "goals/fields", goal_form: goal_form %>
+  <% end %>
+  <p><%= f.link_to_add "Add a goal", :goals %></p>
   <%= f.actions %>
 <% end %>
