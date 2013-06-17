@@ -1,33 +1,9 @@
-<%= form_for(@project) do |f| %>
-  <% if @project.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
-
-      <ul>
-      <% @project.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
+<%= semantic_form_for(@project) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :group, include_blank: false, input_html: {class: "input-medium"} %>
+    <%= f.input :name %>
+    <%= f.input :summary %>
+    <%= f.input :description, input_html: {class: "input-xxlarge"} %>
   <% end %>
-
-  <div class="field">
-    <%= f.label :group_id %><br>
-    <%= f.number_field :group_id %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :summary %><br>
-    <%= f.text_field :summary %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.actions %>
 <% end %>

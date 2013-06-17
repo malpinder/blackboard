@@ -25,6 +25,8 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 gem "twitter-bootstrap-rails"
+gem "formtastic"
+gem "formtastic-plus-bootstrap"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
