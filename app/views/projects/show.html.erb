@@ -27,11 +27,7 @@
                     <p><%= markdown goal.description %></p>
                   </div>
                   <div class="tab-pane" id="goal-<%= goal.id%>-tips">
-                    <ul>
-                      <% goal.tips.each do |tip| %>
-                        <li><%= markdown tip.text %></li>
-                      <% end %>
-                    </ul>
+                    <%= markdown goal.description %>
                   </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ class CreateGoals < ActiveRecord::Migration
       t.integer :project_id
       t.string :title
       t.text :description
+      t.text :tips
 
       t.timestamps
     end

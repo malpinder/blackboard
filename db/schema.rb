@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20130614143728) do
     t.integer  "project_id"
     t.string   "title"
     t.text     "description"
+    t.text     "tips"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -35,13 +36,6 @@ ActiveRecord::Schema.define(version: 20130614143728) do
     t.string   "name"
     t.string   "summary"
     t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "tips", force: true do |t|
-    t.integer  "goal_id"
-    t.string   "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
