@@ -41,6 +41,11 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     formtastic (2.2.1)
       actionpack (>= 3.0)
     formtastic-plus-bootstrap (1.1.7)
@@ -129,6 +134,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
+  factory_girl_rails
   formtastic
   formtastic-plus-bootstrap
   jquery-rails

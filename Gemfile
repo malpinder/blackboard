@@ -44,3 +44,4 @@ gem 'redcarpet'
 # gem 'debugger', group: [:development, :test]
 
 gem 'rspec-rails', group: [:development, :test]
+gem 'factory_girl_rails', group: [:test]
