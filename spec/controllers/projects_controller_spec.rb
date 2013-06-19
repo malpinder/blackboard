@@ -22,17 +22,13 @@ describe ProjectsController do
 
   # This should return the minimal set of attributes required to create a valid
   # Project. As you add validations to Project, be sure to
-  # update the return value of this method accordingly.
-  def valid_attributes
-    {}
-  end
+  # adjust the attributes here as well.
+  let(:valid_attributes) { { "group_id" => "1" } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ProjectsController. Be sure to keep this updated too.
-  def valid_session
-    {}
-  end
+  let(:valid_session) { {} }
 
   describe "GET index" do
     it "assigns all projects as @projects" do
@@ -89,14 +85,14 @@ describe ProjectsController do
       it "assigns a newly created but unsaved project as @project" do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        post :create, {:project => {}}, valid_session
+        post :create, {:project => { "group_id" => "invalid value" }}, valid_session
         assigns(:project).should be_a_new(Project)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        post :create, {:project => {}}, valid_session
+        post :create, {:project => { "group_id" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
     end
@@ -110,8 +106,8 @@ describe ProjectsController do
         # specifies that the Project created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Project.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => project.to_param, :project => {'these' => 'params'}}, valid_session
+        Project.any_instance.should_receive(:update).with({ "group_id" => "1" })
+        put :update, {:id => project.to_param, :project => { "group_id" => "1" }}, valid_session
       end
 
       it "assigns the requested project as @project" do
@@ -132,7 +128,7 @@ describe ProjectsController do
         project = Project.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        put :update, {:id => project.to_param, :project => {}}, valid_session
+        put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, valid_session
         assigns(:project).should eq(project)
       end
 
@@ -140,7 +136,7 @@ describe ProjectsController do
         project = Project.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        put :update, {:id => project.to_param, :project => {}}, valid_session
+        put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, valid_session
         response.should render_template("edit")
       end
     end
