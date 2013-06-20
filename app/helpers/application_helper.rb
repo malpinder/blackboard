@@ -1,5 +1,11 @@
 module ApplicationHelper
 
+  def nav_links
+    {
+      "Home" => root_path
+    }
+  end
+
   def markdown(text)
     markdown_renderer.render(text).html_safe
   end

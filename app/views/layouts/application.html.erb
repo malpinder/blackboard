@@ -50,9 +50,9 @@
                     <a class="brand" href="#">Blackboard</a>
                     <div class="nav-collapse collapse">
                       <ul class="nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <% nav_links.each_pair do |text, path| %>
+                          <li class="<%= 'active' if current_page?(path) %>"><%= link_to(text, path) %></li>
+                        <% end %>
                       </ul>
                       <ul class="nav user-nav pull-right">
                         <% if user_signed_in? %>
