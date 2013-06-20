@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def markdown(text)
-    markdown_renderer.render(text).html_safe
+    markdown_renderer.render(text).html_safe if text.present?
   end
 
   private
