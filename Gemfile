@@ -31,6 +31,9 @@ gem "nested_form"
 
 gem 'redcarpet'
 
+gem 'omniauth'
+gem 'omniauth-github'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
