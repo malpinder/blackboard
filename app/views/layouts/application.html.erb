@@ -54,6 +54,20 @@
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
                       </ul>
+                      <ul class="nav user-nav pull-right">
+                        <% if user_signed_in? %>
+                          <li id="current-user">
+                            <%= link_to root_path do %>
+                              <%= image_tag current_user.image_url, class: "img", width: 40, height: 40 %>
+                              &nbsp;
+                              <%= current_user.name %>
+                            <% end %>
+                          </li>
+                          <li><%= link_to "Log out", session_path, method: :delete %></li>
+                        <% else %>
+                          <li><%= link_to "Log in via GitHub", new_session_path(provider: "github") %></li>
+                        <% end %>
+                      </ul>
                     </div>
                 </div>
             </div>
