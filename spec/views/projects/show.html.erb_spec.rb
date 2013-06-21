@@ -11,6 +11,7 @@ describe "projects/show" do
   end
 
   it "renders attributes in <p>" do
+    view.stub(:user_signed_in?) { false }
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     rendered.should match(/1/)
