@@ -14,6 +14,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authenticate!
-    redirect_to root_path and return if current_user.nil?
+    redirect_to(root_path) and return unless user_signed_in?
   end
 end
