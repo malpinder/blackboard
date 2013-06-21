@@ -3,6 +3,10 @@
 <p class="lead"><%= @project.summary %></p>
 <p><%= markdown @project.description %></p>
 
+<div>
+  <%= get_started_message(@project) %>
+</div>
+
 <h2>What exactly will my program need to do?</h2>
 <div class="accordion" id="accordion1">
   <% @project.goals.each do |goal| %>

@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.where(id: session[:user_id]).first
   end
   helper_method :current_user
+
+  def authenticate!
+    redirect_to root_path and return if current_user.nil?
+  end
 end
