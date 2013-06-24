@@ -1,0 +1,27 @@
+<div class="accordion-group">
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" href="#collapse-<%= goal.id%>">
+            <%= goal.title %>
+        </a>
+    </div>
+    <div id="collapse-<%= goal.id%>" class="accordion-body collapse">
+        <div class="accordion-inner tabbable">
+            <ul class="nav nav-tabs">
+              <li class="active">
+                <%= link_to "Description", "#goal-#{goal.id}-description", "data-toggle" => "tab" %>
+              </li>
+              <li>
+                <%= link_to "Tips", "#goal-#{goal.id}-tips", "data-toggle" => "tab" %>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="goal-<%= goal.id%>-description">
+                <p><%= markdown goal.description %></p>
+              </div>
+              <div class="tab-pane" id="goal-<%= goal.id%>-tips">
+                <%= markdown goal.description %>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
