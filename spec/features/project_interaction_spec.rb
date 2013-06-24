@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "Interacting with projects" do
+feature "Starting a project" do
   background do
     OmniAuth.config.add_mock(:github, example_omniauth_github_response)
   end

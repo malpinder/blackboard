@@ -1,14 +1,18 @@
 module SessionHelper
 
   def example_omniauth_github_response
+    omniauth_github_response_for(FactoryGirl.build(:user))
+  end
+
+  def omniauth_github_response_for(user)
     OmniAuth::AuthHash.new({
       provider: 'github',
-      uid: "12345",
+      uid: user.uid,
       info: {
-        name: "Ada L",
-        nickame: "ada",
-        image: "https://example.gravatar.com/avatar/ada",
-        urls: {"GitHub" => "https://example.github.com/ada"}
+        name: user.name,
+        nickname: user.nickname,
+        image: user.image_url,
+        urls: {"GitHub" => user.github_url}
       }
     })
   end
