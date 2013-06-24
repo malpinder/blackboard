@@ -33,4 +33,16 @@ describe User do
     end
 
   end
+
+  describe "#display_name" do
+    let(:user) { User.new(name: "Mary Allen W", nickname: "maryallenw") }
+    subject { user.display_name }
+    it "returns the name if there is a name present" do
+      expect(subject).to eq user.name
+    end
+    it "returns the nickname if name is blank" do
+      user.name = ""
+      expect(subject).to eq user.nickname
+    end
+  end
 end

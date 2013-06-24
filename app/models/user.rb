@@ -15,4 +15,8 @@ class User < ActiveRecord::Base
     self.find_by_provider_and_uid(attributes[:provider], attributes[:uid]) || create!(attributes)
   end
 
+  def display_name
+    name.blank? ? nickname : name
+  end
+
 end
