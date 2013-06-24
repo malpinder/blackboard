@@ -8,6 +8,8 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1
   def show
+    @user_projects = @project.user_projects
+    @user_projects = @user_projects.where.not(user_id: current_user.id) if user_signed_in?
   end
 
   # GET /projects/new
