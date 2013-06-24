@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  describe "#find_or_create_by_auth_hash" do
+  describe ".find_or_create_by_auth_hash" do
     let(:auth_hash) { example_omniauth_github_response }
 
     let(:user) { User.find_or_create_by_auth_hash(auth_hash) }

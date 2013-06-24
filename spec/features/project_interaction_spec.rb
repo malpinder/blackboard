@@ -36,13 +36,13 @@ feature "Viewing a project someone has started" do
   let(:user) { FactoryGirl.create(:user, name: "Grace H") }
   let(:project) {FactoryGirl.create(:project, users: [user])}
 
-  scenario "as a guest user can see them" do
+  scenario "a guest user can see them" do
     visit project_path(project)
 
     page.should have_content "Grace H is working on this"
   end
 
-  scenario "as a logged in user can see them" do
+  scenario "a logged in user can see them" do
     visit root_path
     click_link "Log in via GitHub"
 
@@ -51,7 +51,7 @@ feature "Viewing a project someone has started" do
     page.should have_content "Grace H is working on this"
   end
 
-  scenario "as a logged in user who has started this project can't see themselves" do
+  scenario "a logged in user who has started this project can't see themselves" do
     visit root_path
     click_link "Log in via GitHub"
 
