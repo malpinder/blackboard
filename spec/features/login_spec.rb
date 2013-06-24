@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 feature "User sessions" do
+  let(:user) { FactoryGirl.build(:user, image_url: "https://example.gravatar.com/avatar/ada") }
   background do
-    OmniAuth.config.add_mock(:github, example_omniauth_github_response)
+    OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
   end
   scenario "logging in" do
     visit root_path
@@ -11,8 +12,8 @@ feature "User sessions" do
     click_link "Log in via GitHub"
 
     current_path.should eq root_path
-    page.should have_content "Ada L"
-    page.should have_xpath("//img[@src=\"https://example.gravatar.com/avatar/ada\"]")
+    page.should have_content user.display_name
+    page.should have_xpath("//img[@src=\"#{user.image_url}\"]")
   end
 
   scenario "logging out" do
@@ -23,7 +24,7 @@ feature "User sessions" do
     click_link "Log out"
 
     page.should have_no_link('Log out')
-    page.should have_no_content "Ada L"
-    page.should have_no_xpath("//img[@src=\"https://example.gravatar.com/avatar/ada\"]")
+    page.should have_no_content user.display_name
+    page.should have_no_xpath("//img[@src=\"#{user.image_url}\"]")
   end
 end
