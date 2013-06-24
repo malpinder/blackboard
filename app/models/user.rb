@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   has_many :user_projects
   has_many :projects, through: :user_projects
 
+  validates :provider, :uid, :nickname, presence: true
+
   def self.find_or_create_by_auth_hash(auth_hash)
     attributes = {
       provider: auth_hash[:provider],
