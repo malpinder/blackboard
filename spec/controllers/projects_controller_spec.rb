@@ -34,7 +34,7 @@ describe ProjectsController do
     it "assigns all projects as @projects" do
       project = Project.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:projects).should eq([project])
+      expect(assigns(:projects)).to eq([project])
     end
   end
 
@@ -42,14 +42,14 @@ describe ProjectsController do
     it "assigns the requested project as @project" do
       project = Project.create! valid_attributes
       get :show, {:id => project.to_param}, valid_session
-      assigns(:project).should eq(project)
+      expect(assigns(:project)).to eq(project)
     end
   end
 
   describe "GET new" do
     it "assigns a new project as @project" do
       get :new, {}, valid_session
-      assigns(:project).should be_a_new(Project)
+      expect(assigns(:project)).to be_a_new(Project)
     end
   end
 
@@ -57,7 +57,7 @@ describe ProjectsController do
     it "assigns the requested project as @project" do
       project = Project.create! valid_attributes
       get :edit, {:id => project.to_param}, valid_session
-      assigns(:project).should eq(project)
+      expect(assigns(:project)).to eq(project)
     end
   end
 
@@ -71,13 +71,13 @@ describe ProjectsController do
 
       it "assigns a newly created project as @project" do
         post :create, {:project => valid_attributes}, valid_session
-        assigns(:project).should be_a(Project)
-        assigns(:project).should be_persisted
+        expect(assigns(:project)).to be_a(Project)
+        expect(assigns(:project)).to be_persisted
       end
 
       it "redirects to the created project" do
         post :create, {:project => valid_attributes}, valid_session
-        response.should redirect_to(Project.last)
+        expect(response).to redirect_to(Project.last)
       end
     end
 
@@ -86,14 +86,14 @@ describe ProjectsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
         post :create, {:project => { "group_id" => "invalid value" }}, valid_session
-        assigns(:project).should be_a_new(Project)
+        expect(assigns(:project)).to be_a_new(Project)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
         post :create, {:project => { "group_id" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -113,13 +113,13 @@ describe ProjectsController do
       it "assigns the requested project as @project" do
         project = Project.create! valid_attributes
         put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
-        assigns(:project).should eq(project)
+        expect(assigns(:project)).to eq(project)
       end
 
       it "redirects to the project" do
         project = Project.create! valid_attributes
         put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
-        response.should redirect_to(project)
+        expect(response).to redirect_to(project)
       end
     end
 
@@ -129,7 +129,7 @@ describe ProjectsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
         put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, valid_session
-        assigns(:project).should eq(project)
+        expect(assigns(:project)).to eq(project)
       end
 
       it "re-renders the 'edit' template" do
@@ -137,7 +137,7 @@ describe ProjectsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
         put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -153,7 +153,7 @@ describe ProjectsController do
     it "redirects to the projects list" do
       project = Project.create! valid_attributes
       delete :destroy, {:id => project.to_param}, valid_session
-      response.should redirect_to(projects_url)
+      expect(response).to redirect_to(projects_url)
     end
   end
 

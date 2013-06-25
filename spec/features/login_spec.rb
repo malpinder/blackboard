@@ -7,24 +7,24 @@ feature "User sessions" do
   end
   scenario "logging in" do
     visit root_path
-    page.should have_link('Log in via GitHub')
+    expect(page).to have_link('Log in via GitHub')
 
     click_link "Log in via GitHub"
 
-    current_path.should eq root_path
-    page.should have_content user.display_name
-    page.should have_xpath("//img[@src=\"#{user.image_url}\"]")
+    expect(current_path).to eq(root_path)
+    expect(page).to have_content user.display_name
+    expect(page).to have_xpath("//img[@src=\"#{user.image_url}\"]")
   end
 
   scenario "logging out" do
     visit root_path
     click_link "Log in via GitHub"
 
-    page.should have_link('Log out')
+    expect(page).to have_link('Log out')
     click_link "Log out"
 
-    page.should have_no_link('Log out')
-    page.should have_no_content user.display_name
-    page.should have_no_xpath("//img[@src=\"#{user.image_url}\"]")
+    expect(page).to have_no_link('Log out')
+    expect(page).to have_no_content user.display_name
+    expect(page).to have_no_xpath("//img[@src=\"#{user.image_url}\"]")
   end
 end

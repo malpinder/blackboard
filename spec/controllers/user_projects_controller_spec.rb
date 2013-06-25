@@ -23,7 +23,7 @@ describe UserProjectsController do
 
       it "redirects to the project page" do
         post :create, {:project_id => project.id}, valid_session
-        response.should redirect_to(Project.last)
+        expect(response).to redirect_to(Project.last)
       end
     end
   end
