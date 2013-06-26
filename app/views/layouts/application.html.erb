@@ -57,7 +57,7 @@
                       <ul class="nav user-nav pull-right">
                         <% if user_signed_in? %>
                           <li id="current-user">
-                            <%= link_to root_path do %>
+                            <%= link_to user_path(current_user) do %>
                               <%= image_tag current_user.image_url, class: "img", width: 35, height: 35 %>
                               &nbsp;
                               <%= current_user.display_name %>

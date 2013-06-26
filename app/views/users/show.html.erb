@@ -1,2 +1,12 @@
 <h1><%= @user.display_name %></h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<%= image_tag @user.image_url, class: "img"%>
+<%= link_to "View their github account", @user.github_url %>
+
+<ul id="working-on">
+  <% @user.user_projects.each do |user_project| %>
+    <li>
+      Started work on <%= link_to user_project.project.name, project_path(user_project.project) %>
+      <%= distance_of_time_in_words_to_now(user_project.created_at) %> ago
+    </li>
+  <% end %>
+</ul>
