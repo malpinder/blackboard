@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
     name.blank? ? nickname : name
   end
 
+  def to_param
+    nickname
+  end
+
 end
