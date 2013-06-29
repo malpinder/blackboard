@@ -1,9 +1,9 @@
 module ProjectsHelper
 
-  def get_started_message(project)
+  def user_project_message(project)
     if user_signed_in?
       if current_user.projects.include?(project)
-        "You're working on this project."
+        content_tag(:span, "You're working on this project.") + no_longer_working_on_this_button(current_user, project)
       else
         button_to "I want to start work on this", user_projects_path(project_id: project.id), class: "btn"
       end
@@ -12,4 +12,12 @@ module ProjectsHelper
     end
   end
 
+  def no_longer_working_on_this_button(user, project)
+    button_to(
+      "I'm not working on this any more",
+      user_project_path(user.user_projects.find_by_project_id(project.id)),
+      method: :delete,
+      class: "btn"
+    )
+  end
 end

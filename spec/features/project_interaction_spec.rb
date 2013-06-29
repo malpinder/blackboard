@@ -28,6 +28,27 @@ feature "Starting a project" do
   end
 end
 
+feature "Finishing working on a project" do
+  let(:user) {FactoryGirl.create(:user )}
+  let(:project) {FactoryGirl.create(:project, users: [user])}
+
+  background do
+    OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
+    visit root_path
+    click_link "Log in via GitHub"
+    visit project_path(project)
+  end
+
+  scenario "because I want to quit the project" do
+    expect(page).to have_button("I'm not working on this any more")
+    click_button "I'm not working on this any more"
+
+    expect(page).to have_content("Okay, that project has been taken off your account.")
+    expect(page).to have_no_content("You're working on this project.")
+    expect(page).to have_button("I want to start work on this")
+  end
+end
+
 feature "Viewing a project someone has started" do
   background do
     OmniAuth.config.add_mock(:github, example_omniauth_github_response)

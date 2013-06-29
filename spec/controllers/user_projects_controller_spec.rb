@@ -27,4 +27,20 @@ describe UserProjectsController do
       end
     end
   end
+
+  describe "DELETE destroy" do
+    it "destroys the requested user_project" do
+      user_project = UserProject.create! valid_attributes
+      expect {
+        delete :destroy, {:id => user_project.to_param}, valid_session
+      }.to change(UserProject, :count).by(-1)
+    end
+
+    it "redirects to the project page" do
+      user_project = UserProject.create! valid_attributes
+      delete :destroy, {:id => user_project.to_param}, valid_session
+      expect(response).to redirect_to(Project.last)
+    end
+  end
+
 end
