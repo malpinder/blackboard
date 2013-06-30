@@ -6,4 +6,5 @@ Tutorials and lessons are valuable, but the best learning is self-driven and com
 
 ## Thanks
 
-+AS in the commits stands for pairing wih [@agentantelope](https://github.com/AgentAntelope).
++AS in the commits stands for pairing with [@agentantelope](https://github.com/AgentAntelope).
+Likewise, +SP stands for pairing with [@rspinder](https://github.com/rspinder)
