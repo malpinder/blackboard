@@ -9,6 +9,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   def show
     @user_projects = @project.user_projects
+    @user_project_for_current_user = @user_projects.find_by_user_id(current_user.id) if user_signed_in?
     @user_projects = @user_projects.where.not(user_id: current_user.id) if user_signed_in?
   end
 

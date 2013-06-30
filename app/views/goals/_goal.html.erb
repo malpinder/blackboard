@@ -1,8 +1,16 @@
-<div class="accordion-group">
+<div class="accordion-group" id="goal-<%= goal.id%>">
     <div class="accordion-heading">
         <a class="accordion-toggle" data-toggle="collapse" href="#collapse-<%= goal.id%>">
             <%= goal.title %>
         </a>
+        <%#render partial: :goal_completion %>
+        <% if @user_project_for_current_user %>
+          <% if !@user_project_for_current_user.goals.include?(goal) %>
+          <%= button_to("I have done this goal", goal_completions_path(goal_id: goal.id, user_project_id: @user_project_for_current_user.id), class: "btn") %>
+          <% else %>
+            ✅
+          <% end %>
+        <% end %>
     </div>
     <div id="collapse-<%= goal.id%>" class="accordion-body collapse">
         <div class="accordion-inner tabbable">

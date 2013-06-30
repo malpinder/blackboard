@@ -8,6 +8,7 @@ Blackboard::Application.routes.draw do
 
   resources :projects
   resources :user_projects, only: [:create, :destroy]
+  resources :goal_completions, only: [:create]
 
   root "blackboard#show"
 

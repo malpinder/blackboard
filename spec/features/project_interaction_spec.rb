@@ -29,7 +29,7 @@ feature "Starting a project" do
 end
 
 feature "Finishing working on a project" do
-  let(:user) {FactoryGirl.create(:user )}
+  let(:user) {FactoryGirl.create(:user)}
   let(:project) {FactoryGirl.create(:project, users: [user])}
 
   background do
@@ -47,6 +47,39 @@ feature "Finishing working on a project" do
     expect(page).to have_no_content("You're working on this project.")
     expect(page).to have_button("I want to start work on this")
   end
+end
+
+feature "goal completion" do
+  let(:user) {FactoryGirl.create(:user)}
+  let(:goal) {FactoryGirl.create(:goal)}
+  let(:project) {FactoryGirl.create(:project, users: [user], goals: [goal])}
+
+  background do
+    OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
+    visit root_path
+    click_link "Log in via GitHub"
+    visit project_path(project)
+  end
+
+  scenario "I can mark a goal as completed" do
+    within("#goal-#{goal.id}") do
+      expect(page).to have_button("I have done this goal")
+    end
+  end
+
+  scenario "I can see completed goals as completed" do
+    within("#goal-#{goal.id}") do
+      click_button("I have done this goal")
+    end
+
+    expect(page).to have_content("You've marked that goal as complete.")
+
+    within("#goal-#{goal.id}") do
+      expect(page).to have_no_button("I have done this goal")
+      expect(page).to have_content("\u2705") # The tick character
+    end
+  end
+
 end
 
 feature "Viewing a project someone has started" do
