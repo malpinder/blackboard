@@ -6,4 +6,8 @@ class UserProject < ActiveRecord::Base
   has_many :goals, through: :goal_completions
 
   delegate :display_name, to: :user
+
+  def complete?
+    goal_completions.count == project.goals.count
+  end
 end
