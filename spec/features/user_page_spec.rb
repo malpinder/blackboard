@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature "A user page" do
   let(:user) { FactoryGirl.create(:user, name: "Ada L") }
-  let(:worked_on_project) { FactoryGirl.create(:project, users: [user])}
+  let(:worked_on_project) { FactoryGirl.create(:project, worked_on_by: [user])}
   background do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
   end
@@ -36,8 +36,8 @@ feature "A user page" do
   end
 
   scenario "lists projects they are working on in order of most-recent first" do
-    older_project = FactoryGirl.create(:project, name: "Older project", users: [user])
-    newer_project = FactoryGirl.create(:project, name: "Newer project", users: [user])
+    older_project = FactoryGirl.create(:project, name: "Older project", started_by: [user])
+    newer_project = FactoryGirl.create(:project, name: "Newer project", started_by: [user])
 
     visit user_path(user)
     expect(page).to have_css("ul#working-on:first-child", text: "Newer project")

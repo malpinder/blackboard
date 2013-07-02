@@ -30,7 +30,7 @@ end
 
 feature "Finishing working on a project" do
   let(:user) {FactoryGirl.create(:user)}
-  let(:project) {FactoryGirl.create(:project, users: [user], goals_count: 1)}
+  let(:project) {FactoryGirl.create(:project, started_by: [user], goals_count: 1)}
 
   background do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
@@ -51,7 +51,7 @@ end
 
 feature "goal completion" do
   let(:user)    {FactoryGirl.create(:user)}
-  let(:project) {FactoryGirl.create(:project, users: [user])}
+  let(:project) {FactoryGirl.create(:project, started_by: [user])}
   let(:goal)    { project.goals.first }
 
   background do
@@ -87,7 +87,7 @@ feature "Viewing a project someone has started" do
   end
 
   let(:user) { FactoryGirl.create(:user, name: "Grace H") }
-  let(:project) {FactoryGirl.create(:project, users: [user])}
+  let(:project) {FactoryGirl.create(:project, started_by: [user])}
 
   scenario "a guest user can see them" do
     visit project_path(project)

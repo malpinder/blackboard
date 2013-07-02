@@ -33,7 +33,7 @@ describe User do
     end
   end
 
-  let(:user) { User.new(name: "Mary Allen W", nickname: "maryallenw") }
+  let(:user) { FactoryGirl.build(:user, name: "Mary Allen W", nickname: "maryallenw") }
 
   describe "#display_name" do
     subject { user.display_name }
@@ -49,6 +49,27 @@ describe User do
   describe "#to_param" do
     it "returns the nickname" do
       expect(user.to_param).to eq user.nickname
+    end
+  end
+
+  describe "#has_completed?" do
+    subject { FactoryGirl.create(:user) }
+
+    it "returns false for a user with no user projects" do
+      project = FactoryGirl.create(:project)
+      expect(subject).to_not have_completed(project)
+    end
+    it "returns false for a user who has started the project" do
+      project = FactoryGirl.create(:project, started_by: [subject])
+      expect(subject).to_not have_completed(project)
+    end
+    it "returns false for a user who has not completed the project" do
+      project = FactoryGirl.create(:project, worked_on_by: [subject])
+      expect(subject).to_not have_completed(project)
+    end
+    it "returns true for a user who has completed the project" do
+      project = FactoryGirl.create(:project, completed_by: [subject])
+      expect(subject).to have_completed(project)
     end
   end
 end

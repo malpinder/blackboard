@@ -2,9 +2,23 @@ FactoryGirl.define do
   factory :project do
     ignore do
       goals_count 2
+      started_by []
+      worked_on_by []
+      completed_by []
     end
+
     after(:create) do |project, evaluator|
       FactoryGirl.create_list(:goal, evaluator.goals_count, project: project)
+
+      evaluator.started_by.each do |user|
+        FactoryGirl.create_list(:user_project, 1, project: project, user: user)
+      end
+      evaluator.worked_on_by.each do |user|
+        FactoryGirl.create_list(:user_project, 1, :in_progress, project: project, user: user)
+      end
+      evaluator.completed_by.each do |user|
+        FactoryGirl.create_list(:user_project, 1, :complete, project: project, user: user)
+      end
     end
   end
 

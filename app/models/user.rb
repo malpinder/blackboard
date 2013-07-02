@@ -25,4 +25,8 @@ class User < ActiveRecord::Base
     nickname
   end
 
+  def has_completed?(project)
+    user_project = user_projects.find_by(project_id: project.id)
+    user_project.present? && user_project.complete?
+  end
 end
