@@ -5,6 +5,8 @@ class UserProject < ActiveRecord::Base
   has_many :goal_completions, dependent: :destroy
   has_many :goals, through: :goal_completions
 
+  validates :project_id, :user_id, presence: true
+
   delegate :display_name, to: :user
 
   def complete?
