@@ -17,5 +17,8 @@ FactoryGirl.define do
     image_url "https://example.gravatar.com/pictures/adal"
   end
 
-  factory :goal
+  factory :goal do
+    project
+  end
+
 end
