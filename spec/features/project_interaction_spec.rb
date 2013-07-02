@@ -30,7 +30,7 @@ end
 
 feature "Finishing working on a project" do
   let(:user) {FactoryGirl.create(:user)}
-  let(:project) {FactoryGirl.create(:project, users: [user])}
+  let(:project) {FactoryGirl.create(:project, users: [user], goals_count: 1)}
 
   background do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
@@ -50,9 +50,9 @@ feature "Finishing working on a project" do
 end
 
 feature "goal completion" do
-  let(:user) {FactoryGirl.create(:user)}
-  let(:goal) {FactoryGirl.create(:goal)}
-  let(:project) {FactoryGirl.create(:project, users: [user], goals: [goal])}
+  let(:user)    {FactoryGirl.create(:user)}
+  let(:project) {FactoryGirl.create(:project, users: [user])}
+  let(:goal)    { project.goals.first }
 
   background do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
@@ -79,7 +79,6 @@ feature "goal completion" do
       expect(page).to have_content("\u2705") # The tick character
     end
   end
-
 end
 
 feature "Viewing a project someone has started" do

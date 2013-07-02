@@ -1,5 +1,12 @@
 FactoryGirl.define do
-  factory :project
+  factory :project do
+    ignore do
+      goals_count 2
+    end
+    after(:create) do |project, evaluator|
+      FactoryGirl.create_list(:goal, evaluator.goals_count, project: project)
+    end
+  end
 
   factory :user do
     name "Ada L"
