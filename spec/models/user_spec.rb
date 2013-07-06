@@ -72,4 +72,25 @@ describe User do
       expect(subject).to have_completed(project)
     end
   end
+
+  describe "#working_on?" do
+    subject { FactoryGirl.create(:user) }
+
+    it "returns false for a user with no user projects" do
+      project = FactoryGirl.create(:project)
+      expect(subject).to_not be_working_on(project)
+    end
+    it "returns true for a user who has started the project" do
+      project = FactoryGirl.create(:project, started_by: [subject])
+      expect(subject).to be_working_on(project)
+    end
+    it "returns true for a user who has not completed the project" do
+      project = FactoryGirl.create(:project, worked_on_by: [subject])
+      expect(subject).to be_working_on(project)
+    end
+    it "returns false for a user who has completed the project" do
+      project = FactoryGirl.create(:project, completed_by: [subject])
+      expect(subject).to_not be_working_on(project)
+    end
+  end
 end

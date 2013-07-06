@@ -29,4 +29,9 @@ class User < ActiveRecord::Base
     user_project = user_projects.find_by(project_id: project.id)
     user_project.present? && user_project.complete?
   end
+
+  def working_on?(project)
+    user_project = user_projects.find_by(project_id: project.id)
+    user_project.present? && !user_project.complete?
+  end
 end
