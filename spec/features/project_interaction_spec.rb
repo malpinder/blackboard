@@ -47,6 +47,15 @@ feature "Finishing working on a project" do
     expect(page).to have_no_content("You're working on this project.")
     expect(page).to have_button("I want to start work on this")
   end
+
+  scenario "because I've done all the goals" do
+    click_button("I have done this goal")
+
+    expect(page).to have_no_content("You're working on this project.")
+    expect(page).to have_no_button("I'm not working on this any more.")
+
+    expect(page).to have_content("You've completed this project.")
+  end
 end
 
 feature "goal completion" do
