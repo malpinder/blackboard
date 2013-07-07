@@ -16,4 +16,9 @@ module SessionHelper
       }
     })
   end
+
+  def log_in
+    visit root_path
+    click_link "Log in via GitHub"
+  end
 end

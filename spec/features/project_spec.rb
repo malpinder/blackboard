@@ -16,8 +16,7 @@ feature "Viewing a project someone has started" do
   end
 
   scenario "a logged in user can see them" do
-    visit root_path
-    click_link "Log in via GitHub"
+    log_in
 
     visit project_path(project)
 
@@ -25,8 +24,7 @@ feature "Viewing a project someone has started" do
   end
 
   scenario "a logged in user who has started this project can't see themselves" do
-    visit root_path
-    click_link "Log in via GitHub"
+    log_in
 
     visit project_path(project)
     click_button "I want to start work on this"

@@ -14,8 +14,7 @@ feature "Starting a project" do
   end
 
   scenario "as a logged in user" do
-    visit root_path
-    click_link "Log in via GitHub"
+    log_in
 
     visit project_path(project)
 
@@ -34,8 +33,7 @@ feature "Finishing working on a project" do
 
   background do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
-    visit root_path
-    click_link "Log in via GitHub"
+    log_in
     visit project_path(project)
   end
 
@@ -65,8 +63,7 @@ feature "goal completion" do
 
   background do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
-    visit root_path
-    click_link "Log in via GitHub"
+    log_in
     visit project_path(project)
   end
 
