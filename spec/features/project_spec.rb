@@ -34,10 +34,9 @@ feature "Viewing a project someone has started" do
 end
 
 feature "Adding a Github repo link to a project" do
-  let(:grace) { FactoryGirl.create(:user, name: "Grace H") }
-  let(:barbara) { FactoryGirl.create(:user, name: "Barbara L") }
+  let(:grace) { FactoryGirl.create(:user, name: "Grace H", nickname: "graceh") }
+  let(:barbara) { FactoryGirl.create(:user, name: "Barbara L", nickname: "barbaral") }
   let(:project) {FactoryGirl.create(:project, started_by: [grace], completed_by: [barbara])}
-  let(:github_repo_url) { "https://example.github.com/example/repo" }
 
   scenario "a guest user cannot add a link" do
     visit project_path(project)
@@ -57,10 +56,10 @@ feature "Adding a Github repo link to a project" do
     visit project_path(project)
 
     expect(page).to have_content("Add a GitHub repo")
-    fill_in "URL", with: github_repo_url
+    fill_in "URL", with: "https://github.com/#{grace.nickname}/repo"
     click_button "Add"
 
-    expect(page).to have_xpath("//a[@href=\"#{github_repo_url}\"]")
+    expect(page).to have_xpath("//a[@href=\"https://github.com/#{grace.nickname}/repo\"]")
   end
   scenario "a logged in user can if they have completed the project" do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(barbara))
@@ -68,9 +67,9 @@ feature "Adding a Github repo link to a project" do
     visit project_path(project)
 
     expect(page).to have_content("Add a GitHub repo")
-    fill_in "URL", with: github_repo_url
+    fill_in "URL", with: "https://github.com/#{barbara.nickname}/repo"
     click_button "Add"
 
-    expect(page).to have_xpath("//a[@href=\"#{github_repo_url}\"]")
+    expect(page).to have_xpath("//a[@href=\"https://github.com/#{barbara.nickname}/repo\"]")
   end
 end

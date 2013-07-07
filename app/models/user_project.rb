@@ -6,6 +6,9 @@ class UserProject < ActiveRecord::Base
   has_many :goals, through: :goal_completions
 
   validates :project_id, :user_id, presence: true
+  validates :github_repo_url, format: {
+                with: Proc.new{ |user_project| /\Ahttps\:\/\/(?:www\.)?github\.com\/#{user_project.user.nickname}\/[A-z]+\/?\z/ },
+                allow_nil: true}
 
   delegate :display_name, to: :user
 

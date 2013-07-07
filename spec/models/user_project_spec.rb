@@ -2,6 +2,46 @@ require 'spec_helper'
 
 describe UserProject do
 
+  describe "validations" do
+    describe "github repo url" do
+      let (:user_project) { FactoryGirl.build(:user_project) }
+      it "can be blank" do
+        user_project.github_repo_url = nil
+        expect(user_project.save).to be_true
+      end
+
+      it "cannot be an invalid url" do
+        user_project.github_repo_url = "Foo"
+        expect(user_project.save).to be_false
+      end
+
+      it "cannot be a non-github url" do
+        user_project.github_repo_url = "http://www.example.com"
+        expect(user_project.save).to be_false
+      end
+
+      it "cannot be a github url with non-alpha-numeric characters for the repo name" do
+        user_project.github_repo_url = "https://www.github.com/1337/#4XX0R"
+        expect(user_project.save).to be_false
+      end
+
+      it "cannot be a github url with exploitative code" do
+        user_project.github_repo_url = "https://www.github.com/1337/#4X<script>alert('Injected!');</script>X0R"
+        expect(user_project.save).to be_false
+      end
+
+      it "cannot be a valid github repo url for a diffent user" do
+        user_project.github_repo_url = "https://www.github.com/GeorgeE/reponame"
+        expect(user_project.save).to be_false
+      end
+
+      it "can be a valid github repo url for the correct user" do
+        user_project.github_repo_url = "https://www.github.com/#{user_project.user.nickname}/bar"
+        expect(user_project.save).to be_true
+      end
+    end
+  end
+
   describe "#is_complete?" do
     it "returns false if it has no goal completions" do
       subject = FactoryGirl.create(:user_project)
