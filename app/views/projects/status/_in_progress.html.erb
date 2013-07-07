@@ -8,3 +8,5 @@ You're working on this project.
     ) %>
 
 Your project is <%= @project_presenter.current_user_project.percentage_completion %>% complete.
+
+<%= render partial: 'user_projects/github_repo_form', locals: {user_project: @project_presenter.current_user_project } %>

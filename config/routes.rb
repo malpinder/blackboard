@@ -7,7 +7,7 @@ Blackboard::Application.routes.draw do
   delete '/sessions',             to: "sessions#destroy", as: "session"
 
   resources :projects
-  resources :user_projects, only: [:create, :destroy]
+  resources :user_projects, only: [:create, :update, :destroy]
   resources :goal_completions, only: [:create]
 
   root "blackboard#show"

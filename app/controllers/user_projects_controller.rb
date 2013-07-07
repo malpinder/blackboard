@@ -10,9 +10,13 @@ class UserProjectsController < ApplicationController
     redirect_to(project_path(project))
   end
 
+  def update
+    set_flash_message(user_project.update(user_project_params), "Github repo saved.")
+    redirect_to project_path(user_project.project)
+  end
+
   # DELETE /user_projects/1
   def destroy
-    user_project = current_user.user_projects.find(params[:id])
     project = user_project.project
 
     set_flash_message(user_project.destroy, "Okay, that project has been taken off your account.")
@@ -27,5 +31,13 @@ class UserProjectsController < ApplicationController
     else
       flash[:warning] = 'Sorry, something went wrong there. Perhaps try again?'
     end
+  end
+
+  def user_project
+    @user_project ||= current_user.user_projects.find(params[:id])
+  end
+
+  def user_project_params
+    params.require(:user_project).permit(:github_repo_url)
   end
 end
