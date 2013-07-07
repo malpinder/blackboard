@@ -1,0 +1,10 @@
+You're working on this project.
+
+<%= button_to(
+      "I'm not working on this any more",
+      user_project_path(@project_presenter.current_user_project),
+      method: :delete,
+      class: "btn"
+    ) %>
+
+Your project is <%= @project_presenter.current_user_project.percentage_completion %>% complete.

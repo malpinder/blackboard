@@ -4,7 +4,7 @@
 <p><%= markdown @project.description %></p>
 
 <div>
-  <%= user_project_message(@project) %>
+  <%= render partial: "projects/status/#{@project_presenter.status}" %>
 </div>
 
 <h2>What exactly will my program need to do?</h2>

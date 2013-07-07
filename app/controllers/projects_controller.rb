@@ -1,3 +1,4 @@
+
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
@@ -11,6 +12,8 @@ class ProjectsController < ApplicationController
     @user_projects = @project.user_projects
     @user_project_for_current_user = @user_projects.find_by_user_id(current_user.id) if user_signed_in?
     @user_projects = @user_projects.where.not(user_id: current_user.id) if user_signed_in?
+
+    @project_presenter = ProjectPresenter.new(@project, current_user)
   end
 
   # GET /projects/new
