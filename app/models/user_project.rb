@@ -12,4 +12,8 @@ class UserProject < ActiveRecord::Base
   def complete?
     goal_completions.count == project.goals.count
   end
+
+  def percentage_completion
+    ((goal_completions.count.to_f / project.goals.count) * 100).to_i
+  end
 end
