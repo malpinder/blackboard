@@ -15,10 +15,15 @@ describe UserProjectsController do
 
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new UserProject for the current user" do
+      it "creates a new UserProject" do
         expect {
           post :create, {:project_id => project.id}, valid_session
         }.to change(UserProject, :count).by(1)
+      end
+
+      it "creates a UserProject for the current user" do
+        post :create, {:project_id => project.id}, valid_session
+        expect(UserProject.find_by(user_id: user.id)).to_not be_nil
       end
 
       it "redirects to the project page" do
