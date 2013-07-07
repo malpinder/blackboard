@@ -12,7 +12,7 @@ feature "Viewing a project someone has started" do
   scenario "a guest user can see them" do
     visit project_path(project)
 
-    expect(page).to have_content("Grace H is working on this")
+    expect(page).to have_content("#{user.name} is working on this")
   end
 
   scenario "a logged in user can see them" do
@@ -20,7 +20,7 @@ feature "Viewing a project someone has started" do
 
     visit project_path(project)
 
-    expect(page).to have_content("Grace H is working on this")
+    expect(page).to have_content("#{user.name} is working on this")
   end
 
   scenario "a logged in user who has started this project can't see themselves" do
@@ -29,7 +29,7 @@ feature "Viewing a project someone has started" do
     visit project_path(project)
     click_button "I want to start work on this"
 
-    expect(page).to have_no_content("Ada L is working on this")
+    expect(page).to have_no_content("#{example_omniauth_github_response.info.name} is working on this")
   end
 end
 
