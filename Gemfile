@@ -45,9 +45,14 @@ gem 'omniauth-github'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+group :development do
+  gem 'rspec-rails'
+  gem 'pry'
+end
 
-gem 'rspec-rails', group: [:development, :test]
 group :test do
+  gem 'rspec-rails'
+  gem 'pry'
   gem 'factory_girl_rails'
   gem "capybara"
 end
