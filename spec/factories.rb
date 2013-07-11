@@ -24,11 +24,11 @@ FactoryGirl.define do
 
   factory :user do
     name "Ada L"
-    nickname "ada"
+    nickname { name.downcase.gsub(" ", '') }
     provider "github"
     uid "12345"
-    github_url "https://example.github.com/adal"
-    image_url "https://example.gravatar.com/pictures/adal"
+    github_url { "https://example.github.com/#{nickname}" }
+    image_url { "https://example.gravatar.com/pictures/#{nickname}" }
   end
 
   factory :goal do
