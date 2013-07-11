@@ -9,42 +9,42 @@ describe UserProject do
       let (:nickname) { user_project.user.nickname }
       it "can be blank" do
         user_project.github_repo_url = nil
-        expect(user_project.save).to be_true
+        expect(user_project).to be_valid
       end
 
       it "cannot be an invalid url" do
         user_project.github_repo_url = "Foo"
-        expect(user_project.save).to be_false
+        expect(user_project).to_not be_valid
       end
 
       it "cannot be a non-github url" do
         user_project.github_repo_url = "http://www.example.com"
-        expect(user_project.save).to be_false
+        expect(user_project).to_not be_valid
       end
 
       it "cannot be a github url with non-alpha-numeric characters for the repo name" do
         user_project.github_repo_url = "#{valid_host}#{nickname}/#4XX0R"
-        expect(user_project.save).to be_false
+        expect(user_project).to_not be_valid
       end
 
       it "cannot be a github url with exploitative code" do
         user_project.github_repo_url = "#{valid_host}#{nickname}/bar#4X<script>alert('Injected!');</script>X0R"
-        expect(user_project.save).to be_false
+        expect(user_project).to_not be_valid
       end
 
       it "cannot be a valid github repo url for a diffent user" do
         user_project.github_repo_url = "#{valid_host}GeorgeE/reponame"
-        expect(user_project.save).to be_false
+        expect(user_project).to_not be_valid
       end
 
       it "can be a valid github repo url for the correct user" do
         user_project.github_repo_url = "#{valid_host}#{nickname}/bar"
-        expect(user_project.save).to be_true
+        expect(user_project).to be_valid
       end
 
       it "can be a valid github repo url for the correct user EVEN IN ALL CAPS" do
         user_project.github_repo_url = "#{valid_host}#{nickname.upcase}/bar"
-        expect(user_project.save).to be_true
+        expect(user_project).to be_valid
       end
     end
   end
