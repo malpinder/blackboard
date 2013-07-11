@@ -41,6 +41,11 @@ describe UserProject do
         user_project.github_repo_url = "#{valid_host}#{nickname}/bar"
         expect(user_project.save).to be_true
       end
+
+      it "can be a valid github repo url for the correct user EVEN IN ALL CAPS" do
+        user_project.github_repo_url = "#{valid_host}#{nickname.upcase}/bar"
+        expect(user_project.save).to be_true
+      end
     end
   end
 
