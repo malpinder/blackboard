@@ -2,18 +2,20 @@ require 'spec_helper'
 
 describe UsersController do
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # ProjectsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
   describe "GET show" do
     it "assigns the requested user as @user" do
       user = FactoryGirl.create(:user)
-      get :show, {:nickname => user.to_param}, valid_session
+      get :show, {:nickname => user.to_param}
       expect(assigns(:user)).to eq(user)
     end
   end
 
+  describe "DELETE destroy" do
+    it "destroys the requested user" do
+      user = FactoryGirl.create(:user)
+      delete :destroy, {:nickname => user.to_param}, {user_id: user.id}
+      expect(User.find_by(id: user.id)).to be_nil
+    end
+  end
 
 end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature "A user page" do
   let(:user) { FactoryGirl.create(:user, name: "Ada L") }
-  let(:worked_on_project) { FactoryGirl.create(:project, worked_on_by: [user])}
+  let!(:worked_on_project) { FactoryGirl.create(:project, worked_on_by: [user])}
   background do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
   end
@@ -14,8 +14,7 @@ feature "A user page" do
   end
 
   scenario "is accessible from the navbar when logged in" do
-    visit root_path
-    click_link "Log in via GitHub"
+    log_in
     within ".user-nav" do
       expect_a_link_to_the_user_page
     end
@@ -42,6 +41,31 @@ feature "A user page" do
     visit user_path(user)
     expect(page).to have_css("ul#working-on:first-child", text: "Newer project")
     expect(page).to have_css("ul#working-on:last-child",  text: "Older project")
+  end
+
+  scenario "lets you delete your account & data" do
+    log_in
+    visit user_path(user)
+
+    expect(page).to have_button("Delete my account")
+
+    click_button "Delete my account"
+
+    expect(current_path).to eq root_path
+    expect(page).to have_content "Log in"
+
+    visit project_path(worked_on_project)
+    expect(page).to have_no_content(user.display_name)
+  end
+
+  scenario "does not let you delete other people's accounts" do
+    grete = FactoryGirl.create(:user, nickname: "greteh")
+    visit user_path(grete)
+    expect(page).to have_no_button("Delete my account")
+
+    log_in
+    visit user_path(grete)
+    expect(page).to have_no_button("Delete my account")
   end
 
 
