@@ -5,6 +5,8 @@ describe UserProject do
   describe "validations" do
     describe "github repo url" do
       let (:user_project) { FactoryGirl.build(:user_project) }
+      let (:valid_host) { "https://www.github.com/" }
+      let (:nickname) { user_project.user.nickname }
       it "can be blank" do
         user_project.github_repo_url = nil
         expect(user_project.save).to be_true
@@ -21,22 +23,22 @@ describe UserProject do
       end
 
       it "cannot be a github url with non-alpha-numeric characters for the repo name" do
-        user_project.github_repo_url = "https://www.github.com/1337/#4XX0R"
+        user_project.github_repo_url = "#{valid_host}#{nickname}/#4XX0R"
         expect(user_project.save).to be_false
       end
 
       it "cannot be a github url with exploitative code" do
-        user_project.github_repo_url = "https://www.github.com/1337/#4X<script>alert('Injected!');</script>X0R"
+        user_project.github_repo_url = "#{valid_host}#{nickname}/bar#4X<script>alert('Injected!');</script>X0R"
         expect(user_project.save).to be_false
       end
 
       it "cannot be a valid github repo url for a diffent user" do
-        user_project.github_repo_url = "https://www.github.com/GeorgeE/reponame"
+        user_project.github_repo_url = "#{valid_host}GeorgeE/reponame"
         expect(user_project.save).to be_false
       end
 
       it "can be a valid github repo url for the correct user" do
-        user_project.github_repo_url = "https://www.github.com/#{user_project.user.nickname}/bar"
+        user_project.github_repo_url = "#{valid_host}#{nickname}/bar"
         expect(user_project.save).to be_true
       end
     end
