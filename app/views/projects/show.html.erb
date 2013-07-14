@@ -14,6 +14,9 @@
 
 <div class="row-fluid">
   <ul id="working-users" class="span6">
-    <%= render @user_projects %>
+    <%= render @project_presenter.worked_on_user_projects %>
+  </ul>
+  <ul id="finished-users" class="span6">
+    <%= render @project_presenter.completed_user_projects %>
   </ul>
 </div>

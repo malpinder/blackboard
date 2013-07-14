@@ -8,7 +8,9 @@ feature "Viewing a project someone has started" do
   scenario "a guest user can see them" do
     visit project_path(project)
 
-    expect(page).to have_content("#{user.name} started work on this")
+    within "#working-users" do
+      expect(page).to have_content("#{user.name} started work on this")
+    end
   end
 
   scenario "a logged in user can see them" do
@@ -17,7 +19,9 @@ feature "Viewing a project someone has started" do
 
     visit project_path(project)
 
-    expect(page).to have_content("#{user.name} started work on this")
+    within "#working-users" do
+      expect(page).to have_content("#{user.name} started work on this")
+    end
   end
 
   scenario "a logged in user who has started this project can't see themselves" do
@@ -27,6 +31,47 @@ feature "Viewing a project someone has started" do
     visit project_path(project)
 
     expect(page).to have_no_content("#{user.name} started work on this")
+  end
+end
+
+feature "Viewing a project someone has finished" do
+  let(:user) { FactoryGirl.create(:user, name: "Barbara L", nickname: "barbaral") }
+  let(:project) {FactoryGirl.create(:project, completed_by: [user])}
+
+  scenario "doesn't show them in the working-users list" do
+    visit project_path(project)
+
+    within "#working-users" do
+      expect(page).to have_no_content(user.name)
+    end
+  end
+
+  scenario "a guest user can see them in the finished users list" do
+    visit project_path(project)
+
+    within "#finished-users" do
+      expect(page).to have_content("#{user.name} has completed this project")
+    end
+  end
+
+  scenario "a logged in user can see them" do
+    OmniAuth.config.add_mock(:github, example_omniauth_github_response)
+    log_in
+
+    visit project_path(project)
+
+    within "#finished-users" do
+      expect(page).to have_content("#{user.name} has completed this project")
+    end
+  end
+
+  scenario "a logged in user who has started this project can't see themselves" do
+    OmniAuth.config.add_mock(:github, omniauth_github_response_for(user))
+    log_in
+
+    visit project_path(project)
+
+    expect(page).to have_no_content("#{user.name} has completed this project")
   end
 end
 
