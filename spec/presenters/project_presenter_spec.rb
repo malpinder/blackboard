@@ -6,10 +6,10 @@ describe ProjectPresenter do
   describe ".new" do
     it "requires a project argument" do
       expect{ ProjectPresenter.new }.to raise_error(ArgumentError)
-      expect{ ProjectPresenter.new(project) }.to_not raise_error(ArgumentError)
+      expect{ ProjectPresenter.new(project) }.to_not raise_error
     end
     it "has an optional user argument" do
-      expect{ ProjectPresenter.new(project, User.new) }.to_not raise_error(ArgumentError)
+      expect{ ProjectPresenter.new(project, User.new) }.to_not raise_error
     end
   end
 

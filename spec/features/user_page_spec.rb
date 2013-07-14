@@ -35,12 +35,11 @@ feature "A user page" do
   end
 
   scenario "lists projects they are working on in order of most-recent first" do
-    older_project = FactoryGirl.create(:project, name: "Older project", started_by: [user])
     newer_project = FactoryGirl.create(:project, name: "Newer project", started_by: [user])
 
     visit user_path(user)
-    expect(page).to have_css("ul#working-on:first-child", text: "Newer project")
-    expect(page).to have_css("ul#working-on:last-child",  text: "Older project")
+    expect(page).to have_css("ul#working-on li:first-child", text: newer_project.name)
+    expect(page).to have_css("ul#working-on li:last-child", text: worked_on_project.name)
   end
 
   scenario "lets you delete your account & data" do

@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :project do
+    sequence(:name) { |n| "Project #{n}"}
     ignore do
       goals_count 2
       started_by []
