@@ -13,54 +13,14 @@ describe ProjectPresenter do
     end
   end
 
-  describe "#status" do
-    let(:user) { FactoryGirl.create(:user) }
-    it "returns :needs_login for a plain project" do
-      presenter = ProjectPresenter.new(project)
-
-      expect(presenter.status).to eq :needs_login
-    end
-    it "returns :ready with a user who hasn't started the project" do
-      project = FactoryGirl.create(:project)
-      presenter = ProjectPresenter.new(project, user)
-
-      expect(presenter.status).to eq :ready
-    end
-    it "returns :in_progress with a user who is working on the project" do
-      project = FactoryGirl.create(:project, worked_on_by: [user])
-      presenter = ProjectPresenter.new(project, user)
-
-      expect(presenter.status).to eq :in_progress
-    end
-    it "returns :finished with a user who has finished the project" do
-      project = FactoryGirl.create(:project, completed_by: [user])
-
-      presenter = ProjectPresenter.new(project, user)
-
-      expect(presenter.status).to eq :finished
-    end
-  end
-
   describe "#can_complete_goals?" do
     subject { ProjectPresenter.new(project) }
-    it "is true if status is :in_progress" do
-      subject.stub(:status).and_return(:in_progress)
+    it "is true if there is a current_user_project" do
+      subject.stub(:current_user_project).and_return(UserProject.new)
       expect(subject.can_complete_goals?).to be_true
     end
-    it "is true if status is :finished" do
-      subject.stub(:status).and_return(:finished)
-      expect(subject.can_complete_goals?).to be_true
-    end
-    it "is false if status is :complete" do
-      subject.stub(:status).and_return(:complete)
-      expect(subject.can_complete_goals?).to be_false
-    end
-    it "is false if status is nil" do
-      subject.stub(:status).and_return(nil)
-      expect(subject.can_complete_goals?).to be_false
-    end
-    it "is false if status is 'argleblarglefoo'" do
-      subject.stub(:status).and_return('argleblarglefoo')
+    it "is false if there is no current_user_project" do
+      subject.stub(:current_user_project).and_return(nil)
       expect(subject.can_complete_goals?).to be_false
     end
   end
