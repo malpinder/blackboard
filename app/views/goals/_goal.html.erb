@@ -4,9 +4,9 @@
             <%= goal.title %>
         </a>
         <%#render partial: :goal_completion %>
-        <% if @user_project_for_current_user %>
-          <% if !@user_project_for_current_user.goals.include?(goal) %>
-          <%= button_to("I have done this goal", goal_completions_path(goal_id: goal.id, user_project_id: @user_project_for_current_user.id), class: "btn") %>
+        <% if @project_presenter.can_complete_goals?  %>
+          <% if !@project_presenter.current_user_project.goals.include?(goal) %>
+          <%= button_to("I have done this goal", goal_completions_path(goal_id: goal.id, user_project_id: @project_presenter.current_user_project.id), class: "btn") %>
           <% else %>
             ✅
           <% end %>

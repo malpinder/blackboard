@@ -41,6 +41,30 @@ describe ProjectPresenter do
     end
   end
 
+  describe "#can_complete_goals?" do
+    subject { ProjectPresenter.new(project) }
+    it "is true if status is :in_progress" do
+      subject.stub(:status).and_return(:in_progress)
+      expect(subject.can_complete_goals?).to be_true
+    end
+    it "is true if status is :finished" do
+      subject.stub(:status).and_return(:finished)
+      expect(subject.can_complete_goals?).to be_true
+    end
+    it "is false if status is :complete" do
+      subject.stub(:status).and_return(:complete)
+      expect(subject.can_complete_goals?).to be_false
+    end
+    it "is false if status is nil" do
+      subject.stub(:status).and_return(nil)
+      expect(subject.can_complete_goals?).to be_false
+    end
+    it "is false if status is 'argleblarglefoo'" do
+      subject.stub(:status).and_return('argleblarglefoo')
+      expect(subject.can_complete_goals?).to be_false
+    end
+  end
+
   describe "#worked_on_user_projects" do
     let(:project) { FactoryGirl.create(:project) }
     subject { ProjectPresenter.new(project).worked_on_user_projects }
