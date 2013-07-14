@@ -1,4 +1,9 @@
 FactoryGirl.define do
+
+  factory :group do
+
+  end
+
   factory :project do
     sequence(:name) { |n| "Project #{n}"}
     ignore do

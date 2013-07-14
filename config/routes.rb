@@ -7,6 +7,7 @@ Blackboard::Application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   delete '/sessions',             to: "sessions#destroy", as: "session"
 
+  resources :groups, only: [:index, :show]
   resources :projects
   resources :user_projects, only: [:create, :update, :destroy]
   resources :goal_completions, only: [:create]
