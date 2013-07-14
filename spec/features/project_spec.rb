@@ -13,6 +13,13 @@ feature "Viewing a project someone has started" do
     end
   end
 
+  scenario "it has a link to the user page" do
+    visit project_path(project)
+    within "#working-users" do
+      expect(page).to have_link(user.display_name, href: user_path(user))
+    end
+  end
+
   scenario "a logged in user can see them" do
     OmniAuth.config.add_mock(:github, example_omniauth_github_response)
     log_in
@@ -51,6 +58,13 @@ feature "Viewing a project someone has finished" do
 
     within "#finished-users" do
       expect(page).to have_content("#{user.name} has completed this project")
+    end
+  end
+
+  scenario "it has a link to the user page" do
+    visit project_path(project)
+    within "#finished-users" do
+      expect(page).to have_link(user.display_name, href: user_path(user))
     end
   end
 
