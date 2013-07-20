@@ -28,12 +28,65 @@ describe ProjectsController do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ProjectsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:user_session) { {user_id: user.id} }
+  let(:admin_session) { {user_id: admin.id} }
+
+  let(:user) { FactoryGirl.create(:user) }
+  let(:admin) { FactoryGirl.create(:user, :admin) }
+  let(:project) { FactoryGirl.create(:project) }
+
+  describe "Access permissons" do
+    describe "GET index" do
+      it "allows guest users" do
+        get :index, {}, {}
+        expect(response.code).to eq "200"
+      end
+      it "allows standard users" do
+        get :index, {}, user_session
+        expect(response.code).to eq "200"
+      end
+      it "allows admin users" do
+        get :index, {}, admin_session
+        expect(response.code).to eq "200"
+      end
+    end
+    describe "GET show" do
+      it "allows guest users" do
+        get :show, { id: project.id }, {}
+        expect(response.code).to eq "200"
+      end
+      it "allows standard users" do
+        get :show, { id: project.id }, user_session
+        expect(response.code).to eq "200"
+      end
+      it "allows admin users" do
+        get :show, { id: project.id }, admin_session
+        expect(response.code).to eq "200"
+      end
+    end
+
+    {new: :get, edit: :get, create: :post, update: :post, destroy: :delete}.each_pair do |action, verb|
+      describe "#{verb.upcase} #{action}" do
+        it "redirects guest users" do
+          send(verb, action, { id: project.id, project: {name: "foobar"} }, {})
+          expect(response.code).to eq "302"
+        end
+        it "forbids standard users" do
+          send(verb, action, { id: project.id, project: {name: "foobar"} }, user_session)
+          expect(response.code).to eq "403"
+        end
+        it "allows admin users" do
+          send(verb, action, { id: project.id, project: {name: "foobar"} }, admin_session)
+          expect(response.code).to_not eq "403"
+        end
+      end
+    end
+  end
 
   describe "GET index" do
     it "assigns all projects as @projects" do
       project = Project.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}, admin_session
       expect(assigns(:projects)).to eq([project])
     end
   end
@@ -41,14 +94,14 @@ describe ProjectsController do
   describe "GET show" do
     it "assigns the requested project as @project" do
       project = Project.create! valid_attributes
-      get :show, {:id => project.to_param}, valid_session
+      get :show, {:id => project.to_param}, admin_session
       expect(assigns(:project)).to eq(project)
     end
   end
 
   describe "GET new" do
     it "assigns a new project as @project" do
-      get :new, {}, valid_session
+      get :new, {}, admin_session
       expect(assigns(:project)).to be_a_new(Project)
     end
   end
@@ -56,7 +109,7 @@ describe ProjectsController do
   describe "GET edit" do
     it "assigns the requested project as @project" do
       project = Project.create! valid_attributes
-      get :edit, {:id => project.to_param}, valid_session
+      get :edit, {:id => project.to_param}, admin_session
       expect(assigns(:project)).to eq(project)
     end
   end
@@ -65,18 +118,18 @@ describe ProjectsController do
     describe "with valid params" do
       it "creates a new Project" do
         expect {
-          post :create, {:project => valid_attributes}, valid_session
+          post :create, {:project => valid_attributes}, admin_session
         }.to change(Project, :count).by(1)
       end
 
       it "assigns a newly created project as @project" do
-        post :create, {:project => valid_attributes}, valid_session
+        post :create, {:project => valid_attributes}, admin_session
         expect(assigns(:project)).to be_a(Project)
         expect(assigns(:project)).to be_persisted
       end
 
       it "redirects to the created project" do
-        post :create, {:project => valid_attributes}, valid_session
+        post :create, {:project => valid_attributes}, admin_session
         expect(response).to redirect_to(Project.last)
       end
     end
@@ -85,14 +138,14 @@ describe ProjectsController do
       it "assigns a newly created but unsaved project as @project" do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        post :create, {:project => { "group_id" => "invalid value" }}, valid_session
+        post :create, {:project => { "group_id" => "invalid value" }}, admin_session
         expect(assigns(:project)).to be_a_new(Project)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        post :create, {:project => { "group_id" => "invalid value" }}, valid_session
+        post :create, {:project => { "group_id" => "invalid value" }}, admin_session
         expect(response).to render_template("new")
       end
     end
@@ -107,18 +160,18 @@ describe ProjectsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Project.any_instance.should_receive(:update).with({ "group_id" => "1" })
-        put :update, {:id => project.to_param, :project => { "group_id" => "1" }}, valid_session
+        put :update, {:id => project.to_param, :project => { "group_id" => "1" }}, admin_session
       end
 
       it "assigns the requested project as @project" do
         project = Project.create! valid_attributes
-        put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
+        put :update, {:id => project.to_param, :project => valid_attributes}, admin_session
         expect(assigns(:project)).to eq(project)
       end
 
       it "redirects to the project" do
         project = Project.create! valid_attributes
-        put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
+        put :update, {:id => project.to_param, :project => valid_attributes}, admin_session
         expect(response).to redirect_to(project)
       end
     end
@@ -128,7 +181,7 @@ describe ProjectsController do
         project = Project.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, valid_session
+        put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, admin_session
         expect(assigns(:project)).to eq(project)
       end
 
@@ -136,7 +189,7 @@ describe ProjectsController do
         project = Project.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Project.any_instance.stub(:save).and_return(false)
-        put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, valid_session
+        put :update, {:id => project.to_param, :project => { "group_id" => "invalid value" }}, admin_session
         expect(response).to render_template("edit")
       end
     end
@@ -146,13 +199,13 @@ describe ProjectsController do
     it "destroys the requested project" do
       project = Project.create! valid_attributes
       expect {
-        delete :destroy, {:id => project.to_param}, valid_session
+        delete :destroy, {:id => project.to_param}, admin_session
       }.to change(Project, :count).by(-1)
     end
 
     it "redirects to the projects list" do
       project = Project.create! valid_attributes
-      delete :destroy, {:id => project.to_param}, valid_session
+      delete :destroy, {:id => project.to_param}, admin_session
       expect(response).to redirect_to(projects_url)
     end
   end

@@ -1,6 +1,7 @@
-
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate!, except: [:show, :index]
+  before_action :authenticate_admin, except: [:show, :index]
 
   # GET /projects
   def index
@@ -48,13 +49,18 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def project_params
-      params.require(:project).permit(:group_id, :name, :summary, :description, goals_attributes: [:id, :title, :description, :project_id])
-    end
+  def authenticate_admin
+    render status: :forbidden, text: "You don't have permission to perform that action." unless current_user.admin?
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def project_params
+    params.require(:project).permit(:group_id, :name, :summary, :description, goals_attributes: [:id, :title, :description, :project_id])
+  end
 end

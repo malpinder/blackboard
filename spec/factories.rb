@@ -35,6 +35,10 @@ FactoryGirl.define do
     uid "12345"
     github_url { "https://example.github.com/#{nickname}" }
     image_url { "https://example.gravatar.com/pictures/#{nickname}" }
+
+    trait :admin do
+      admin true
+    end
   end
 
   factory :goal do
