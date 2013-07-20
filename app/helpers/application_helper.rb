@@ -2,7 +2,8 @@ module ApplicationHelper
 
   def nav_links
     {
-      "Home" => root_path
+      "Home" => root_path,
+      "Projects by type" => groups_path
     }
   end
 
