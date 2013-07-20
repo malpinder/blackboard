@@ -1,0 +1,7 @@
+<h1><%= @group.name %> projects</h1>
+
+<%= markdown @group.description %>
+
+<ul>
+  <%= render @group.projects %>
+</ul>

@@ -7,15 +7,7 @@
 </div>
 
 <div class="row-fluid">
-  <% @groups.each do |group| %>
-  <div class="span6">
-    <h2><%= group.name %></h2>
-    <% group.projects.each do |project| %>
-    <div>
-      <p><%= link_to project.name, project %></p>
-      <p><%= project.summary %></p>
-    </div>
-    <% end %>
-  </div>
-  <% end %>
+  <ul>
+    <%= render @groups %>
+  </ul>
 </div>
