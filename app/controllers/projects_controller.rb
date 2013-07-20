@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
   before_action :authenticate!, except: [:show, :index]
-  before_action :authenticate_admin, except: [:show, :index]
+  before_action :authenticate_admin!, except: [:show, :index]
 
   # GET /projects
   def index
@@ -49,10 +49,6 @@ class ProjectsController < ApplicationController
   end
 
   private
-
-  def authenticate_admin
-    render status: :forbidden, text: "You don't have permission to perform that action." unless current_user.admin?
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_project

@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
   def authenticate!
     redirect_to(root_path) and return unless user_signed_in?
   end
+
+  def authenticate_admin!
+    render status: :forbidden, text: "You don't have permission to perform that action." unless current_user.admin?
+  end
 end
