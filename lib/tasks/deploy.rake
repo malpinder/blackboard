@@ -11,7 +11,7 @@ namespace :deploy do
 
   task :restart do
     puts 'Restarting app servers ...'
-    puts `heroku restart`
+    Bundler.with_clean_env { puts `heroku restart` }
   end
 
   task :tag do
@@ -23,17 +23,17 @@ namespace :deploy do
 
   task :migrate do
     puts 'Running database migrations ...'
-    puts `heroku run rake db:migrate`
+    Bundler.with_clean_env { puts `heroku run rake db:migrate` }
   end
 
   task :off do
     puts 'Putting the app into maintenance mode ...'
-    puts `heroku maintenance:on`
+    Bundler.with_clean_env { puts `heroku maintenance:on` }
   end
 
   task :on do
     puts 'Taking the app out of maintenance mode ...'
-    puts `heroku maintenance:off`
+    Bundler.with_clean_env { puts `heroku maintenance:off` }
   end
 
   task :push_previous do
