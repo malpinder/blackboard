@@ -46,6 +46,26 @@ describe UserProject do
         user_project.github_repo_url = "#{valid_host}#{nickname.upcase}/bar"
         expect(user_project).to be_valid
       end
+
+      it "can be a valid github repo url for the correct user 3V3N W17H NUM83R5" do
+        user_project.github_repo_url = "#{valid_host}#{nickname}/bar123"
+        expect(user_project).to be_valid
+      end
+
+      it "can be a valid github repo url for the correct user even-with-hyphens" do
+        user_project.github_repo_url = "#{valid_host}#{nickname}/bar-none"
+        expect(user_project).to be_valid
+      end
+
+      it "can be a valid github repo url for the correct user even_with_underscores" do
+        user_project.github_repo_url = "#{valid_host}#{nickname}/bar_bara"
+        expect(user_project).to be_valid
+      end
+
+      it "can be a valid github repo url for the correct user even.with.periods" do
+        user_project.github_repo_url = "#{valid_host}#{nickname}/bar.com"
+        expect(user_project).to be_valid
+      end
     end
   end
 

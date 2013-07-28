@@ -7,7 +7,7 @@ class UserProject < ActiveRecord::Base
 
   validates :project_id, :user_id, presence: true
   validates :github_repo_url, format: {
-                with: Proc.new{ |user_project| /\Ahttps\:\/\/(?:www\.)?github\.com\/#{user_project.user.nickname}\/[A-z]+\/?\z/i },
+                with: Proc.new{ |user_project| /\Ahttps\:\/\/(?:www\.)?github\.com\/#{user_project.user.nickname}\/[A-z\d\-_\.]+\/?\z/i },
                 allow_nil: true}
 
   delegate :display_name, to: :user
