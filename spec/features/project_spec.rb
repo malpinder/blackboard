@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 feature "Viewing a project someone has started" do
   let(:user) { FactoryGirl.create(:user, name: "Grace H") }
   let(:project) {FactoryGirl.create(:project, started_by: [user])}
@@ -99,6 +98,7 @@ feature "Adding a Github repo link to a project" do
 
     expect(page).to have_no_content("Add a GitHub repo")
   end
+
   scenario "a logged in user cannot if they have not started the project" do
     OmniAuth.config.add_mock(:github, example_omniauth_github_response)
     log_in
@@ -106,6 +106,7 @@ feature "Adding a Github repo link to a project" do
 
     expect(page).to have_no_content("Add a GitHub repo")
   end
+
   scenario "a logged in user can if they have started the project" do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(grace))
     log_in
@@ -117,6 +118,7 @@ feature "Adding a Github repo link to a project" do
 
     expect(page).to have_xpath("//a[@href=\"https://github.com/#{grace.nickname}/repo\"]")
   end
+
   scenario "a logged in user can if they have completed the project" do
     OmniAuth.config.add_mock(:github, omniauth_github_response_for(barbara))
     log_in
@@ -127,6 +129,20 @@ feature "Adding a Github repo link to a project" do
     click_button "Add"
 
     expect(page).to have_xpath("//a[@href=\"https://github.com/#{barbara.nickname}/repo\"]")
+  end
+
+  scenario "the user can edit the link" do
+    OmniAuth.config.add_mock(:github, omniauth_github_response_for(barbara))
+    repo_url = "https://github.com/#{barbara.nickname}/repo"
+    log_in
+    visit project_path(project)
+    fill_in "URL", with: repo_url
+    click_button "Add"
+
+    fill_in "URL", with: "https://github.com/#{barbara.nickname}/repo2"
+    click_button "Edit"
+    expect(page).to have_no_xpath("//a[@href=\"#{repo_url}\"]")
+    expect(page).to have_xpath("//a[@href=\"https://github.com/#{barbara.nickname}/repo2\"]")
   end
 end
 

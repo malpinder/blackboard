@@ -1,15 +1,15 @@
 <section>
-<% if user_project.github_repo_url.present? %>
-  <%= link_to "View your github repo for this project", user_project.github_repo_url %>
-<% else %>
+  <% if user_project.github_repo_url.present? %>
+    <%= link_to "View your github repo for this project", user_project.github_repo_url %>
+  <% end %>
+
   <h3>Add a GitHub repo</h3>
 
   <%= semantic_form_for user_project do |f| %>
     <%= f.inputs do %>
       <%= f.input :github_repo_url, label: "URL:" %>
     <% end %>
-    <%= f.submit "Add" %>
+    <%= f.submit (user_project.github_repo_url.present? ? 'Edit' : 'Add') %>
   <% end %>
 
-<% end %>
 </section>
