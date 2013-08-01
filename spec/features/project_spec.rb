@@ -145,20 +145,3 @@ feature "Adding a Github repo link to a project" do
     expect(page).to have_xpath("//a[@href=\"https://github.com/#{barbara.nickname}/repo2\"]")
   end
 end
-
-feature "Creating a project" do
-  scenario "An admin user can create a project" do
-    admin = FactoryGirl.create(:user, :admin, name: "Grace H", nickname: "graceh")
-    OmniAuth.config.add_mock(:github, omniauth_github_response_for(admin))
-    log_in
-    visit new_project_path
-    fill_in "Name", with: "Test Project"
-    fill_in "Summary", with: "A project for testing."
-    fill_in "Description", with: "This will tell us that an admin user can create projects."
-    click_button "Create Project"
-    expect(page).to have_content("Project was successfully created.")
-    expect(page).to have_content("Test Project")
-    expect(page).to have_content("A project for testing.")
-    expect(page).to have_content("This will tell us that an admin user can create projects.")
-  end
-end
