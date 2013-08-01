@@ -10,6 +10,8 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 OmniAuth.config.test_mode = true
 
+Capybara.javascript_driver = :webkit
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -21,11 +23,6 @@ RSpec.configure do |config|
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
-  config.use_transactional_fixtures = true
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -40,4 +37,26 @@ RSpec.configure do |config|
 
   # Include helpers
   config.include SessionHelper
+
+  # Use DatabaseCleaner to clear the database between each test run.
+  # The RackTest driver supports transactional fixtures, but not any
+  # other drivers. We're using CapybaraWebkit for JS features, so
+  # switch to :truncation for JS specs.
+  # See https://github.com/jnicklas/capybara#transactions-and-database-setup
+  RSpec.configure do |config|
+    config.use_transactional_fixtures = false
+
+    config.before :each do
+      if Capybara.current_driver == :rack_test
+        DatabaseCleaner.strategy = :transaction
+      else
+        DatabaseCleaner.strategy = :truncation
+      end
+      DatabaseCleaner.start
+    end
+
+    config.after do
+      DatabaseCleaner.clean
+    end
+  end
 end

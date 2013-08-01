@@ -58,6 +58,8 @@ group :test do
   gem 'pry'
   gem 'factory_girl_rails'
   gem "capybara"
+  gem "capybara-webkit"
+  gem 'database_cleaner'
 end
 
 group :production do
